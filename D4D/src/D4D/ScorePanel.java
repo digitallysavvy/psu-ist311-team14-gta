@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 Hermes Frangoudis (hwf5000), Aldrich Fung.
+ * Copyright 2014 Aldrich.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,40 @@
  */
 package D4D;
 
-import java.awt.Point;
-//import java.awt.Rectangle;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author Aldrich
  */
-public class Car extends JLabel{
+public class ScorePanel extends JPanel {
     
-    ImageIcon carImage;
-    Point location;
+    JTable table;
+    AbstractTableModel tableModel;
+    Scanner scan;
+    File file;
+            
     
-    public Car(ImageIcon bg, Point p){
-        carImage = bg;
-        location = p;
-        this.setBounds(location.x, location.y, carImage.getIconHeight(), carImage.getIconWidth());
+    public ScorePanel() {
+        super();
+        file = new File(getClass().getClassLoader().getResource("highscore.txt").getFile());
+        try {
+            scan = new Scanner(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ScorePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        table = new JTable();
+    }
+    
+    public void loadScoresFromFile(){
+        if(scan.hasNextLine()){
+            
+        }
     }
 }

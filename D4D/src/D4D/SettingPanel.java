@@ -27,6 +27,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import javax.swing.*;
 
@@ -34,7 +36,7 @@ import javax.swing.*;
  *
  * @author Aldrich
  */
-public class SettingPanel extends JPanel{
+public class SettingPanel extends JPanel implements ActionListener{
     
     //int difficulty;
     Rectangle car;
@@ -53,12 +55,14 @@ public class SettingPanel extends JPanel{
         two = new JButton("car2");
         three = new JButton("car3");
         start = new JButton("Start");
+        start.addActionListener(this);
         difficulty = new JSlider(5,15,10);
         
         add(one);
         add(two);
         add(three);
         
+        //Dictionary for JSlider text labels
         Hashtable<Integer, JLabel> sizeTable = new Hashtable<Integer, JLabel>();
         sizeTable.put (5, new JLabel("Easy"));
         sizeTable.put (10, new JLabel("Normal"));
@@ -73,5 +77,22 @@ public class SettingPanel extends JPanel{
         add(start);
         
         
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object obj = e.getSource();
+        if(obj == start){
+            //Create Game Panel
+        }
+        if(obj == one){
+            //Set car to image 1
+        }
+        if(obj == two){
+            //Set car to image 2
+        }
+        if(obj == three){
+            //Set car to image 3
+        }
     }
 }
