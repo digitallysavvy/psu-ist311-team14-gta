@@ -24,7 +24,6 @@
 package D4D;
 
 import java.awt.Point;
-//import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 

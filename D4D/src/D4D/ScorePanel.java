@@ -39,6 +39,7 @@ public class ScorePanel extends JPanel {
     
     JTable table;
     AbstractTableModel tableModel;
+    JLabel name, score, date;
     Scanner scan;
     File file;
             
@@ -56,7 +57,10 @@ public class ScorePanel extends JPanel {
     
     public void loadScoresFromFile(){
         if(scan.hasNextLine()){
-            
+            String[] data = scan.nextLine().split(" ");
+            String name = data[0];
+            String highscore = data[1];
+            String date = data[2];
         }
     }
 }
