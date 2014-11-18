@@ -13,7 +13,12 @@ import javax.swing.JPanel;
  */
 public class ShellPanel extends JPanel{
     
+    SettingPanel setting;
+    
     public ShellPanel(){
-        
+        super();
+        setting = new SettingPanel();
+        //setLayout(null);
+        add(setting);
     }
 }
