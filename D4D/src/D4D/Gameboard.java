@@ -66,7 +66,7 @@ public class Gameboard extends JPanel implements ActionListener{
         
         //Create player and add to Gameboard
         Image carImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
-        player = new Car(new ImageIcon(carImage), new Point (100,100));
+        player = new Car(new ImageIcon(carImage), new Point (220,480));
         player.setBounds(player.location.x, player.location.y, player.getWidth(), player.getHeight());
         add(player);        
         
