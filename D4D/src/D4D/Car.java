@@ -42,6 +42,8 @@ public class Car extends JLabel{
         location = p;
         height = carImage.getIconHeight();
         width = carImage.getIconWidth();
+        this.setSize(width, height);
+        this.setBounds(location.x, location.y, width, height);
         setIcon(carImage);
     }
 }
