@@ -51,6 +51,7 @@ public class Gameboard extends JPanel implements ActionListener{
  
         delay = 400;
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
+        enemies = new ArrayList<>();
         
         //Set up the board layout and dimensions
         setLayout(null);
@@ -81,10 +82,26 @@ public class Gameboard extends JPanel implements ActionListener{
         enemySpawnTimer.start();
         
     }
+    
+    public void spawnEnemy(){
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
+        Car enemy = new Car(new ImageIcon(), new Point (200,100));
+        enemies.add(enemy);
+        add(enemy);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        Object obj = e.getSource();
+        if(obj == enemySpawnTimer){
+            spawnEnemy();
+        }
+        if(obj == gameTimer){
+            for(Car enemy : enemies){
+                enemy.location.y -= 2;
+            }
+            repaint();
+        }
     }
     
    @Override
@@ -92,6 +109,7 @@ public class Gameboard extends JPanel implements ActionListener{
 
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
+        player.setLocation(player.getLocation());
         
         
     }

@@ -36,6 +36,7 @@ public class Car extends JLabel{
     int height, width;
     ImageIcon carImage;
     Point location;
+    int speed;
     
     public Car(ImageIcon bg, Point p){
         carImage = bg;
