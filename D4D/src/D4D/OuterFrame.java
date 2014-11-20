@@ -46,7 +46,7 @@ public class OuterFrame extends JFrame{
 	getContentPane().add(mainPanel, "Center");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-	setSize (600, 900);
+	setSize (535, 600);
 	setVisible(true);
     }
 }

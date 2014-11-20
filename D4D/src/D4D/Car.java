@@ -24,7 +24,6 @@
 package D4D;
 
 import java.awt.Point;
-//import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -34,12 +33,15 @@ import javax.swing.JLabel;
  */
 public class Car extends JLabel{
     
+    int height, width;
     ImageIcon carImage;
     Point location;
     
     public Car(ImageIcon bg, Point p){
         carImage = bg;
         location = p;
-        this.setBounds(location.x, location.y, carImage.getIconHeight(), carImage.getIconWidth());
+        height = carImage.getIconHeight();
+        width = carImage.getIconWidth();
+        setIcon(carImage);
     }
 }

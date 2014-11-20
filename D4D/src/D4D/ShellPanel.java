@@ -23,6 +23,9 @@
  */
 package D4D;
 
+import java.awt.BorderLayout;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -32,11 +35,15 @@ import javax.swing.JPanel;
 public class ShellPanel extends JPanel{
     
     SettingPanel setting;
+    Gameboard gameboard;
     
     public ShellPanel(){
         super();
+        setLayout(new BorderLayout());
         setting = new SettingPanel();
-        //setLayout(null);
         add(setting);
+
+        gameboard = new Gameboard();
+        add(gameboard);
     }
 }
