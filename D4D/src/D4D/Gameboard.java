@@ -76,7 +76,7 @@ public class Gameboard extends JPanel implements ActionListener{
         player = new Car(new ImageIcon(carImage), new Point (220,480));
         add(player);  
         
-        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
         Car enemy = new Car(new ImageIcon(enemyImage), new Point (220,10));
         enemies.add(enemy);
         add(enemy);
@@ -95,8 +95,8 @@ public class Gameboard extends JPanel implements ActionListener{
     }
     
     public void spawnEnemy(){
-        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(), new Point (100,100));
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
+        Car enemy = new Car(new ImageIcon(enemyImage), new Point (100,100));
         enemies.add(enemy);
         add(enemy);
     }
