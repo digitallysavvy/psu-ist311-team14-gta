@@ -45,12 +45,19 @@ public class Gameboard extends JPanel implements ActionListener{
     Timer gameTimer, enemySpawnTimer;
     int powerupTimer;
     ArrayList<Car> enemies;
-    
+    Point[] lane;
     
     public Gameboard(){
  
         delay = 400;
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
+        lane = new Point[6];
+        
+        // create lanes
+        for(int i = 0; i > 6; i++){
+            int laneStart = 100 + (i * 60);
+            lane[i] = new Point(laneStart, 10);  
+        }
         enemies = new ArrayList<>();
         
         //Set up the board layout and dimensions
@@ -67,8 +74,12 @@ public class Gameboard extends JPanel implements ActionListener{
         //Create player and add to Gameboard
         Image carImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
         player = new Car(new ImageIcon(carImage), new Point (220,480));
-        player.setBounds(player.location.x, player.location.y, player.getWidth(), player.getHeight());
-        add(player);        
+        add(player);  
+        
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
+        Car enemy = new Car(new ImageIcon(enemyImage), new Point (220,10));
+        enemies.add(enemy);
+        add(enemy);
         
         
         //Create Game Timer
@@ -84,8 +95,8 @@ public class Gameboard extends JPanel implements ActionListener{
     }
     
     public void spawnEnemy(){
-        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
-        Car enemy = new Car(new ImageIcon(), new Point (200,100));
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
+        Car enemy = new Car(new ImageIcon(), new Point (100,100));
         enemies.add(enemy);
         add(enemy);
     }
