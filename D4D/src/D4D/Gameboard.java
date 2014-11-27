@@ -52,7 +52,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     
     public Gameboard(){
  
-        delay = 10;
+        delay = 30;
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
         lane = new Point[6];
         
@@ -91,15 +91,16 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         gameTimer.start();
         
         //Create Spawn Timer
-        enemySpawnTimer = new Timer(delay - 200, this);
+        enemySpawnTimer = new Timer(200, this);
         enemySpawnTimer.addActionListener(this);
         enemySpawnTimer.start();
         
     }
     
     public void spawnEnemy(){
+        int rand = (int) Math.ceil(Math.random() * 6);
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(), new Point (100,100));
+        Car enemy = new Car(new ImageIcon(), lane[rand]);
         enemies.add(enemy);
         add(enemy);
     }
@@ -113,9 +114,15 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         if(obj == gameTimer){
             
             for(Car enemy : enemies){
+                if (enemy.location.x <= this.getHeight()) {
                 enemy.location.y += 5;
-                repaint();
+                
+                }
+                else{
+                    enemy.location.y = -20;
+                }
             }
+            repaint();
         }
     }
     
