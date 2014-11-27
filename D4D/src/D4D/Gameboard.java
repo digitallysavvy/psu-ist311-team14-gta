@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -57,7 +58,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         lane = new Point[6];
         
         // create lanes
-        for(int i = 0; i > 6; i++){
+        for(int i = 0; i < 6; i++){
             int laneStart = 100 + (i * 60);
             lane[i] = new Point(laneStart, 10);  
         }
@@ -79,8 +80,9 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         player = new Car(new ImageIcon(carImage), new Point (220,480));
         add(player);  
         
+        
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(enemyImage), new Point (220,100));
+        Car enemy = new Car(new ImageIcon(enemyImage), lane[1]);
         enemies.add(enemy);
         add(enemy);
         
@@ -91,16 +93,16 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         gameTimer.start();
         
         //Create Spawn Timer
-        enemySpawnTimer = new Timer(200, this);
+        enemySpawnTimer = new Timer(1000, this);
         enemySpawnTimer.addActionListener(this);
         enemySpawnTimer.start();
         
     }
     
     public void spawnEnemy(){
-        int rand = (int) Math.ceil(Math.random() * 6);
+        int rand = (int) Math.ceil(Math.random() * 5);
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(), lane[rand]);
+        Car enemy = new Car(new ImageIcon(enemyImage), lane[rand]);
         enemies.add(enemy);
         add(enemy);
     }
@@ -109,21 +111,25 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
         if(obj == enemySpawnTimer){
-            //spawnEnemy();
+            spawnEnemy();
         }
         if(obj == gameTimer){
             
-            for(Car enemy : enemies){
-                if (enemy.location.x <= this.getHeight()) {
-                enemy.location.y += 5;
+            Iterator<Car> iterator = enemies.iterator();
+            iterator.hasNext(); 
+            
+            while(iterator.hasNext()){
+                Car enemy = iterator.next();
+                if (enemy.location.y <= this.getHeight()) {
+                    enemy.location.y += 5;
                 
                 }
                 else{
-                    enemy.location.y = -20;
+                    iterator.remove();
                 }
             }
-            repaint();
         }
+            repaint();       
     }
     
    @Override
