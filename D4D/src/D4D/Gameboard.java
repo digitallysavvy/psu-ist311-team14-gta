@@ -29,6 +29,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -38,10 +40,11 @@ import javax.swing.Timer;
  *
  * @author hwf5000
  */
-public class Gameboard extends JPanel implements ActionListener{
+public class Gameboard extends JPanel implements ActionListener, KeyListener{
     int delay;
     Image background;
     Car player;
+    //Car enemy;
     Timer gameTimer, enemySpawnTimer;
     int powerupTimer;
     ArrayList<Car> enemies;
@@ -49,7 +52,7 @@ public class Gameboard extends JPanel implements ActionListener{
     
     public Gameboard(){
  
-        delay = 400;
+        delay = 10;
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
         lane = new Point[6];
         
@@ -69,7 +72,7 @@ public class Gameboard extends JPanel implements ActionListener{
         setMaximumSize(dimensions);
         setSize(dimensions);
         setLayout(null);
-        
+        addKeyListener(this);
         
         //Create player and add to Gameboard
         Image carImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
@@ -77,7 +80,7 @@ public class Gameboard extends JPanel implements ActionListener{
         add(player);  
         
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(enemyImage), new Point (220,10));
+        Car enemy = new Car(new ImageIcon(enemyImage), new Point (220,100));
         enemies.add(enemy);
         add(enemy);
         
@@ -105,13 +108,14 @@ public class Gameboard extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
         if(obj == enemySpawnTimer){
-            spawnEnemy();
+            //spawnEnemy();
         }
         if(obj == gameTimer){
+            
             for(Car enemy : enemies){
-                enemy.location.y -= 2;
+                enemy.location.y += 5;
+                repaint();
             }
-            repaint();
         }
     }
     
@@ -120,8 +124,42 @@ public class Gameboard extends JPanel implements ActionListener{
 
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
-        player.setLocation(player.getLocation());
+        player.setBounds(player.location.x, player.location.y, player.width, player.height);
+        for(Car enemy : enemies){
+                enemy.setBounds(enemy.location.x, enemy.location.y, enemy.width, enemy.height);
+                
+            }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
         
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+
+
+            // Move Left
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                player.location.x -= 10;
+                repaint();
+                break;
+
+            // Move Right    
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                player.location.x += 10;
+                repaint();
+                break;
+
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
         
     }
     

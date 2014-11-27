@@ -39,9 +39,9 @@ public class ShellPanel extends JPanel{
     
     public ShellPanel(){
         super();
-        setLayout(new BorderLayout());
+        setLayout(null);
         setting = new SettingPanel();
-        add(setting);
+        //add(setting);
 
         gameboard = new Gameboard();
         add(gameboard);
