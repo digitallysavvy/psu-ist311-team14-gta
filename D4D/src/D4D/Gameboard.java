@@ -81,8 +81,8 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         add(player);  
         
         
-        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(enemyImage), lane[1]);
+        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
+        Car enemy = new Car(new ImageIcon(enemyImage), lane[0]);
         enemies.add(enemy);
         add(enemy);
         
@@ -100,7 +100,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     }
     
     public void spawnEnemy(){
-        int rand = (int) Math.ceil(Math.random() * 5);
+        int rand = (int) Math.ceil(Math.random() * 6);
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
         Car enemy = new Car(new ImageIcon(enemyImage), lane[rand-1]);
         enemies.add(enemy);
@@ -113,7 +113,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
         if(obj == enemySpawnTimer){
-            if(enemies.size() < 6){
+            if(enemies.size() < 7){
                 spawnEnemy();
             }          
         }
@@ -125,7 +125,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
                 
                 }
                 else{
-                    int rand = (int) Math.ceil(Math.random() * 5);
+                    int rand = (int) Math.ceil(Math.random() * 6);
                     enemy.resetEnemy(lane[rand-1]);
                 }
             }
@@ -159,7 +159,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 if(player.getLocation().x >= 100){
-                    player.location.x -= 10;
+                    player.location.x -= 25;
                 }
                 
                 repaint();
@@ -169,7 +169,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 if(player.getLocation().x <= 400){
-                    player.location.x += 10;
+                    player.location.x += 25;
                 }
                 
                 repaint();
