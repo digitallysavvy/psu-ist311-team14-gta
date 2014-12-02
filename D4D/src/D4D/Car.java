@@ -37,14 +37,20 @@ public class Car extends JLabel{
     ImageIcon carImage;
     Point location;
     int speed;
+    Point startPoint;
     
     public Car(ImageIcon bg, Point p){
         carImage = bg;
-        location = p;
+        startPoint = p;
+        location = new Point(p);
         height = carImage.getIconHeight();
         width = carImage.getIconWidth();
         this.setSize(width, height);
         this.setBounds(location.x, location.y, width, height);
         setIcon(carImage);
+    }
+    
+    public void resetEnemy(Point p){
+        location = new Point(p);
     }
 }

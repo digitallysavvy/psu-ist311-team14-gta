@@ -60,7 +60,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         // create lanes
         for(int i = 0; i < 6; i++){
             int laneStart = 100 + (i * 60);
-            lane[i] = new Point(laneStart, 10);  
+            lane[i] = new Point(laneStart, -50);  
         }
         enemies = new ArrayList<>();
         
@@ -93,7 +93,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         gameTimer.start();
         
         //Create Spawn Timer
-        enemySpawnTimer = new Timer(1000, this);
+        enemySpawnTimer = new Timer(5000, this);
         enemySpawnTimer.addActionListener(this);
         enemySpawnTimer.start();
         
@@ -102,32 +102,31 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     public void spawnEnemy(){
         int rand = (int) Math.ceil(Math.random() * 5);
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
-        Car enemy = new Car(new ImageIcon(enemyImage), lane[rand]);
-        Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
-        Car enemy = new Car(new ImageIcon(enemyImage), new Point (100,100));
+        Car enemy = new Car(new ImageIcon(enemyImage), lane[rand-1]);
         enemies.add(enemy);
         add(enemy);
+        
+        System.out.println("Enemy Spawned");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
         if(obj == enemySpawnTimer){
-            spawnEnemy();
+            if(enemies.size() < 6){
+                spawnEnemy();
+            }          
         }
         if(obj == gameTimer){
             
-            Iterator<Car> iterator = enemies.iterator();
-            iterator.hasNext(); 
-            
-            while(iterator.hasNext()){
-                Car enemy = iterator.next();
+            for (Car enemy : enemies){
                 if (enemy.location.y <= this.getHeight()) {
                     enemy.location.y += 5;
                 
                 }
                 else{
-                    iterator.remove();
+                    int rand = (int) Math.ceil(Math.random() * 5);
+                    enemy.resetEnemy(lane[rand-1]);
                 }
             }
         }
