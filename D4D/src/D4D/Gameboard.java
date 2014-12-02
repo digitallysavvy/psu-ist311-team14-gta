@@ -158,14 +158,20 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
             // Move Left
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                player.location.x -= 10;
+                if(player.getLocation().x >= 100){
+                    player.location.x -= 10;
+                }
+                
                 repaint();
                 break;
 
             // Move Right    
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                player.location.x += 10;
+                if(player.getLocation().x <= 400){
+                    player.location.x += 10;
+                }
+                
                 repaint();
                 break;
 
