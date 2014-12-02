@@ -24,7 +24,6 @@
 package D4D;
 
 import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
