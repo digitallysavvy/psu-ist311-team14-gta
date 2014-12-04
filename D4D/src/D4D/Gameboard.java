@@ -24,7 +24,9 @@
 package D4D;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -33,7 +35,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 /**
@@ -107,7 +112,6 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         enemies.add(enemy);
         add(enemy);
         
-        System.out.println("Enemy Spawned");
     }
 
     @Override
@@ -133,7 +137,9 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
             for (Car enemy : enemies){
                 if (enemy.location.y <= this.getHeight()) {
                     enemy.location.y += enemy.getSpeed();
-                
+                    if(collisionCheck(enemy)){
+                        gameOver();
+                    }
                 }
                 else{
                     int rand = (int) Math.ceil(Math.random() * 6);
@@ -142,6 +148,22 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
             }
         }
             repaint();       
+    }
+    
+    public void gameOver(){
+        JLabel gameover = new JLabel("Game Over", SwingConstants.CENTER);
+        gameover.setFont(new Font("serif", Font.PLAIN, 36));
+        gameTimer.stop();
+        JFrame gameoverFrame = new JFrame("Game Over");
+        gameoverFrame.setLayout(new GridLayout(3, 1));
+        gameoverFrame.add(gameover);
+        JLabel lose = new JLabel("You lose", SwingConstants.CENTER);
+        gameoverFrame.add(lose);
+        gameoverFrame.setSize(300, 300);
+        gameoverFrame.setLocationRelativeTo(this);
+        gameoverFrame.setVisible(true);
+        gameoverFrame.setDefaultCloseOperation(gameoverFrame.EXIT_ON_CLOSE);
+        
     }
     
    @Override
@@ -154,6 +176,15 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
                 enemy.setBounds(enemy.location.x, enemy.location.y, enemy.width, enemy.height);
                 
             }
+    }
+    
+    public boolean collisionCheck(Car enemy) {
+        //for (Car enemy : enemies) {
+            if(enemy.getBounds().intersects(player.getBounds())){
+                return true;
+            }
+        //}
+        return false;
     }
 
     @Override
