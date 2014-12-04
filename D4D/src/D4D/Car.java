@@ -45,6 +45,7 @@ public class Car extends JLabel{
         location = new Point(p);
         height = carImage.getIconHeight();
         width = carImage.getIconWidth();
+        speed = 5;
         this.setSize(width, height);
         this.setBounds(location.x, location.y, width, height);
         setIcon(carImage);
@@ -52,5 +53,9 @@ public class Car extends JLabel{
     
     public void resetEnemy(Point p){
         location = new Point(p);
+    }
+    
+    public int getSpeed(){
+        return speed;
     }
 }

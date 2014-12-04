@@ -46,9 +46,11 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     Car player;
     //Car enemy;
     Timer gameTimer, enemySpawnTimer;
-    int powerupTimer;
+    int powerupTimer = 0;
     ArrayList<Car> enemies;
     Point[] lane;
+    boolean powerupToggle = false;
+    
     
     public Gameboard(){
  
@@ -114,13 +116,23 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         if(obj == enemySpawnTimer){
             if(enemies.size() < 7){
                 spawnEnemy();
-            }          
+            }
+            if(powerupToggle && powerupTimer < 1){
+                powerupTimer++;
+            }
+            else{
+                powerupToggle = false;
+                for (Car enemy : enemies){
+                    enemy.speed = 5;
+                }
+            }
         }
+        
         if(obj == gameTimer){
             
             for (Car enemy : enemies){
                 if (enemy.location.y <= this.getHeight()) {
-                    enemy.location.y += 5;
+                    enemy.location.y += enemy.getSpeed();
                 
                 }
                 else{
@@ -173,8 +185,19 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
                 
                 repaint();
                 break;
+                
+            case KeyEvent.VK_SPACE:
+                
+                    togglePowerUp();
 
         }
+    }
+    
+    public void togglePowerUp(){
+        powerupToggle = true;
+       for(Car enemy: enemies){
+            enemy.speed = 3;
+        } 
     }
 
     @Override
