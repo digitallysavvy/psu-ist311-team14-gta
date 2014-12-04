@@ -23,24 +23,46 @@
  */
 package D4D;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Aldrich
  */
-public class ShellPanel extends JPanel{
+public class ShellPanel extends JPanel implements ActionListener{
     
-    SettingPanel setting;
+    SettingPanel settings;
     Gameboard gameboard;
     
     public ShellPanel(){
         super();
-        setLayout(null);
-        setting = new SettingPanel();
-        //add(setting);
-
+        setLayout(new BorderLayout());
+        settings = new SettingPanel();
+        add(settings);
+        settings.start.addActionListener(this);
+    }
+    
+    
+    
+    public void addGameboard(ImageIcon player){
+        remove(settings);
+        settings.start.removeActionListener(this);
         gameboard = new Gameboard();
         add(gameboard);
+        gameboard.getTopLevelAncestor().requestFocus();
+        gameboard.requestFocusInWindow();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object obj = e.getSource();
+
+        if(obj == settings.start){
+            addGameboard(settings.player);
+        }
     }
 }

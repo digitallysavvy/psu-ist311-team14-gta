@@ -23,7 +23,6 @@
  */
 package D4D;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
@@ -38,12 +37,10 @@ import javax.swing.*;
  */
 public class SettingPanel extends JPanel implements ActionListener{
     
-    //int difficulty;
-    Rectangle car;
     LayoutManager layout;
-    JButton one,two,three,start;
+    JButton audiButton,bentlyButton,lamboButton,start;
     JSlider difficulty;
-    ImageIcon car1, car2, car3; 
+    ImageIcon player, audiImage, bentlyImage, lamboImage;
     
     
     public SettingPanel(){
@@ -51,27 +48,33 @@ public class SettingPanel extends JPanel implements ActionListener{
         layout = new GridLayout(5,1,10,30);
         setLayout(layout);
         
-        one = new JButton("car1");
-        two = new JButton("car2");
-        three = new JButton("car3");
+        player = new ImageIcon(getClass().getClassLoader().getResource("images/default.png"));
+        audiImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png"));
+        bentlyImage = new ImageIcon(getClass().getClassLoader().getResource("images/bently.png"));
+        lamboImage = new ImageIcon(getClass().getClassLoader().getResource("images/lamborghini.png"));
+        
+        audiButton = new JButton(audiImage);
+        bentlyButton = new JButton(bentlyImage);
+        lamboButton = new JButton(lamboImage);
         start = new JButton("Start");
         start.addActionListener(this);
-        difficulty = new JSlider(5,15,10);
+        difficulty = new JSlider(1,3,2);
         
-        add(one);
-        add(two);
-        add(three);
+        add(audiButton);
+        add(bentlyButton);
+        add(lamboButton);
         
         //Dictionary for JSlider text labels
         Hashtable<Integer, JLabel> sizeTable = new Hashtable<Integer, JLabel>();
-        sizeTable.put (5, new JLabel("Easy"));
-        sizeTable.put (10, new JLabel("Normal"));
-        sizeTable.put (15, new JLabel("Hard"));
+        sizeTable.put (1, new JLabel("Easy"));
+        sizeTable.put (2, new JLabel("Normal"));
+        sizeTable.put (3, new JLabel("Hard"));
         difficulty.setLabelTable (sizeTable);
         
         difficulty.setPaintTicks(true);
         difficulty.setPaintLabels(true);
-        difficulty.setMajorTickSpacing(5);
+        difficulty.setMajorTickSpacing(1);
+        difficulty.setSnapToTicks(true);
         
         add(difficulty);
         add(start);
@@ -82,17 +85,15 @@ public class SettingPanel extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
-        if(obj == start){
-            //Create Game Panel
+
+        if(obj == audiButton){
+            player = audiImage;
         }
-        if(obj == one){
-            //Set car to image 1
+        if(obj == bentlyButton){
+            player = bentlyImage;
         }
-        if(obj == two){
-            //Set car to image 2
-        }
-        if(obj == three){
-            //Set car to image 3
+        if(obj == lamboButton){
+            player = lamboImage;
         }
     }
 }
