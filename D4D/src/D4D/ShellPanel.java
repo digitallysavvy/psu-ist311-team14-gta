@@ -65,7 +65,26 @@ public class ShellPanel extends JPanel implements ActionListener{
         Object obj = e.getSource();
 
         if(obj == settings.start){
-            addGameboard(settings.player, Difficulty.EASY);
+            Difficulty difficulty;
+            
+            int d = settings.difficulty.getValue();
+            
+            switch(d){
+
+                case 2:
+                    difficulty = Difficulty.MEDIUM;
+                    break;
+                case 3:
+                    difficulty = Difficulty.HARD;
+                    break;
+                
+                case 1:
+                default:
+                    difficulty = Difficulty.EASY;
+                    break;
+            }
+            
+            addGameboard(settings.player, difficulty);
         }
     }
 }

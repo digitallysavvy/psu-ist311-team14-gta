@@ -51,16 +51,29 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     Image background;
     Car player;
     //Car enemy;
-    Timer gameTimer, enemySpawnTimer;
+    Timer gameTimer, enemyTimer;
     int powerupTimer = 0;
     ArrayList<Car> enemies;
     Point[] lane;
     boolean powerupToggle = false;
     
     
-    public Gameboard(ImageIcon p, Difficulty d){
+    public Gameboard(ImageIcon selectedCar, Difficulty difficulty){
  
-        delay = 30;
+        switch(difficulty){
+            case MEDIUM:
+                delay = 30;
+                break;
+            case HARD:
+                delay = 10;
+                break;
+            case EASY:
+            default:
+                delay = 50;
+                break;
+        }
+        
+        //create the background Image and array for the lanes
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
         lane = new Point[6];
         
@@ -82,11 +95,11 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         setLayout(null);
         addKeyListener(this);
         
-        //Create player and add to Gameboard
-        player = new Car(p, new Point (220,480));
+        //Create and add player to Gameboard
+        player = new Car(selectedCar, new Point (220,480));
         add(player);  
         
-        
+        //Create and add first enemy to the enemies array and the gamebaord
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
         Car enemy = new Car(new ImageIcon(enemyImage), lane[0]);
         enemies.add(enemy);
@@ -98,16 +111,20 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         gameTimer.addActionListener(this);
         gameTimer.start();
         
-        //Create Spawn Timer
-        enemySpawnTimer = new Timer(5000, this);
-        enemySpawnTimer.addActionListener(this);
-        enemySpawnTimer.start();
+        //Create the enemy spawn timer
+        enemyTimer = new Timer(5000, this);
+        enemyTimer.addActionListener(this);
+        enemyTimer.start();
         
     }
     
+    
     public void spawnEnemy(){
         int rand = (int) Math.ceil(Math.random() * 6);
+        
+        //Create new emeny adding them to the list of enemies and the gameboard
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
+
         Car enemy = new Car(new ImageIcon(enemyImage), lane[rand-1]);
         enemies.add(enemy);
         add(enemy);
@@ -117,13 +134,20 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
-        if(obj == enemySpawnTimer){
+        
+
+        if(obj == enemyTimer){
+            
+            //Its time to create a new enemy
             if(enemies.size() < 7){
                 spawnEnemy();
             }
+            
+            //Check if powerup is in use 
             if(powerupToggle && powerupTimer < 1){
                 powerupTimer++;
             }
+            
             else{
                 powerupToggle = false;
                 for (Car enemy : enemies){
@@ -135,12 +159,20 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         if(obj == gameTimer){
             
             for (Car enemy : enemies){
+                
+                //if enemy is still on the board
                 if (enemy.location.y <= this.getHeight()) {
+                    
+                    //move the enemy
                     enemy.location.y += enemy.getSpeed();
+                    
+                    //check collision of player and enemies
                     if(collisionCheck(enemy)){
                         gameOver();
                     }
                 }
+                
+                //reset the enemy posistion to the top with a new lane
                 else{
                     int rand = (int) Math.ceil(Math.random() * 6);
                     enemy.resetEnemy(lane[rand-1]);
@@ -151,14 +183,18 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     }
     
     public void gameOver(){
+        System.out.println("Game Over");
         JLabel gameover = new JLabel("Game Over", SwingConstants.CENTER);
         gameover.setFont(new Font("serif", Font.PLAIN, 36));
         gameTimer.stop();
+        
         JFrame gameoverFrame = new JFrame("Game Over");
         gameoverFrame.setLayout(new GridLayout(3, 1));
         gameoverFrame.add(gameover);
+        
         JLabel lose = new JLabel("You lose", SwingConstants.CENTER);
         gameoverFrame.add(lose);
+       
         gameoverFrame.setSize(300, 300);
         gameoverFrame.setLocationRelativeTo(this);
         gameoverFrame.setVisible(true);
