@@ -31,12 +31,15 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Aldrich
+ * @author Aldrich, hwf5000
  */
 public class ShellPanel extends JPanel implements ActionListener{
     
     SettingPanel settings;
     Gameboard gameboard;
+    public enum Difficulty {
+    EASY, MEDIUM, HARD
+}
     
     public ShellPanel(){
         super();
@@ -48,10 +51,10 @@ public class ShellPanel extends JPanel implements ActionListener{
     
     
     
-    public void addGameboard(ImageIcon player){
+    public void addGameboard(ImageIcon player, Difficulty d){
         remove(settings);
         settings.start.removeActionListener(this);
-        gameboard = new Gameboard();
+        gameboard = new Gameboard(player, d);
         add(gameboard);
         gameboard.getTopLevelAncestor().requestFocus();
         gameboard.requestFocusInWindow();
@@ -62,7 +65,7 @@ public class ShellPanel extends JPanel implements ActionListener{
         Object obj = e.getSource();
 
         if(obj == settings.start){
-            addGameboard(settings.player);
+            addGameboard(settings.player, Difficulty.EASY);
         }
     }
 }

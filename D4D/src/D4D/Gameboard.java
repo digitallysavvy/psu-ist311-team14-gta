@@ -23,6 +23,7 @@
  */
 package D4D;
 
+import D4D.ShellPanel.Difficulty;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -57,7 +58,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     boolean powerupToggle = false;
     
     
-    public Gameboard(){
+    public Gameboard(ImageIcon p, Difficulty d){
  
         delay = 30;
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
@@ -82,8 +83,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         addKeyListener(this);
         
         //Create player and add to Gameboard
-        Image carImage = new ImageIcon(getClass().getClassLoader().getResource("images/audi.png")).getImage();
-        player = new Car(new ImageIcon(carImage), new Point (220,480));
+        player = new Car(p, new Point (220,480));
         add(player);  
         
         

@@ -25,7 +25,6 @@ package D4D;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -57,12 +56,16 @@ public class SettingPanel extends JPanel implements ActionListener{
         bentlyButton = new JButton(bentlyImage);
         lamboButton = new JButton(lamboImage);
         start = new JButton("Start");
-        start.addActionListener(this);
-        difficulty = new JSlider(1,3,2);
+        
+        audiButton.addActionListener(this);
+        bentlyButton.addActionListener(this);
+        lamboButton.addActionListener(this);
         
         add(audiButton);
         add(bentlyButton);
         add(lamboButton);
+        
+        difficulty = new JSlider(1,3,2);
         
         //Dictionary for JSlider text labels
         Hashtable<Integer, JLabel> sizeTable = new Hashtable<Integer, JLabel>();
