@@ -23,8 +23,13 @@
  */
 package D4D;
 
+import java.awt.Component;
+import java.awt.Font;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,28 +44,73 @@ public class ScorePanel extends JPanel {
     
     JTable table;
     AbstractTableModel tableModel;
-    JLabel name, score, date;
-    Scanner scan;
+    String userName;
+    JLabel enterName;
+    JTextField nameInput;
+    JButton submit;
+    Scanner  inputscan, filescan;
     File file;
-            
+    BufferedReader in;
+    String read;
+    int score;
+    Object rowData[][] = new Object[3][3];
+    String columnNames[] = { "Name", "Score"};
     
-    public ScorePanel() {
+    public ScorePanel(int s) {
         super();
-        file = new File(getClass().getClassLoader().getResource("highscore.txt").getFile());
-        try {
-            scan = new Scanner(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ScorePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        table = new JTable();
+        score = s;
+        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+        nameInput = new JTextField("Enter your name",SwingConstants.CENTER);
+        submit = new JButton("Submit");
+        
+        loadScoresFromFile();
+        
+        table = new JTable(rowData,columnNames);
+        submit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel highscore = new JLabel("High Scores");
+        highscore.setFont(new Font("serif", Font.PLAIN, 24));
+        setSize(100,300);
+        //add(enterName);
+        add(nameInput);
+        add(submit);
+        add(highscore);
+        add(table);
+        
+    
     }
     
     public void loadScoresFromFile(){
-        if(scan.hasNextLine()){
-            String[] data = scan.nextLine().split(" ");
+        try {
+            //open a bufferedReader to file helloworld.txt
+            in = new BufferedReader(new FileReader(D4D.class.getClassLoader()
+                              .getResource("highscore.txt").getPath()
+                              .replaceAll("%20", " ")));
+            
+            
+                read = in.readLine();
+                //while(read != null){
+                String[] split = read.split("-");
+                System.out.println(split.toString());
+                for(int x = 0; x < 3; x++){
+                    rowData[x][0] = split[0];
+                    rowData[x][1] = split[1];
+                    }
+                //}
+            
+            
+            in.close();
+        }
+        catch(IOException e){
+            System.out.println("There was a problem:" + e);
+        }
+        
+        /*
+        if(filescan.hasNextLine()){
+            String[] data = filescan.nextLine().split(" ");
             String name = data[0];
             String highscore = data[1];
-            String date = data[2];
         }
+                */
     }
 }

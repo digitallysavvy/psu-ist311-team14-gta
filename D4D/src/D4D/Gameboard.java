@@ -56,6 +56,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     ArrayList<Car> enemies;
     Point[] lane;
     boolean powerupToggle = false;
+    int score = 0;
     
     
     public Gameboard(ImageIcon selectedCar, Difficulty difficulty){
@@ -176,6 +177,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
                 else{
                     int rand = (int) Math.ceil(Math.random() * 6);
                     enemy.resetEnemy(lane[rand-1]);
+                    score++;
                 }
             }
         }
@@ -191,11 +193,9 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         JFrame gameoverFrame = new JFrame("Game Over");
         gameoverFrame.setLayout(new GridLayout(3, 1));
         gameoverFrame.add(gameover);
-        
-        JLabel lose = new JLabel("You lose", SwingConstants.CENTER);
-        gameoverFrame.add(lose);
+        gameoverFrame.add(new ScorePanel(score));
        
-        gameoverFrame.setSize(300, 300);
+        gameoverFrame.setSize(500, 500);
         gameoverFrame.setLocationRelativeTo(this);
         gameoverFrame.setVisible(true);
         gameoverFrame.setDefaultCloseOperation(gameoverFrame.EXIT_ON_CLOSE);
