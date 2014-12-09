@@ -46,7 +46,8 @@ import javax.swing.Timer;
  *
  * @author hwf5000
  */
-public class Gameboard extends JPanel implements ActionListener, KeyListener{
+public class Gameboard extends JPanel implements ActionListener, KeyListener {
+
     int delay;
     Image background;
     Car player;
@@ -57,34 +58,34 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
     Point[] lane;
     boolean powerupToggle = false;
     int score = 0;
-    
-    
-    public Gameboard(ImageIcon selectedCar, Difficulty difficulty){
- 
-        switch(difficulty){
+    boolean testing = false;
+
+    public Gameboard(ImageIcon selectedCar, Difficulty difficulty) {
+
+        switch (difficulty) {
             case MEDIUM:
-                delay = 30;
+                delay = 15;
                 break;
             case HARD:
-                delay = 10;
+                delay = 5;
                 break;
             case EASY:
             default:
-                delay = 50;
+                delay = 30;
                 break;
         }
-        
+
         //create the background Image and array for the lanes
         background = new ImageIcon(getClass().getClassLoader().getResource("images/street-bg.png")).getImage();
         lane = new Point[6];
-        
+
         // create lanes
-        for(int i = 0; i < 6; i++){
+        for (int i = 0; i < 6; i++) {
             int laneStart = 100 + (i * 60);
-            lane[i] = new Point(laneStart, -50);  
+            lane[i] = new Point(laneStart, -50);
         }
         enemies = new ArrayList<>();
-        
+
         //Set up the board layout and dimensions
         setLayout(null);
         setFocusable(true);
@@ -95,181 +96,203 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener{
         setSize(dimensions);
         setLayout(null);
         addKeyListener(this);
-        
+
         //Create and add player to Gameboard
-        player = new Car(selectedCar, new Point (220,480));
-        add(player);  
-        
+        player = new Car(selectedCar, new Point(220, 480));
+        add(player);
+
         //Create and add first enemy to the enemies array and the gamebaord
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/expedition.png")).getImage();
         Car enemy = new Car(new ImageIcon(enemyImage), lane[0]);
         enemies.add(enemy);
         add(enemy);
-        
-        
+
         //Create Game Timer
         gameTimer = new Timer(delay, this);
-        gameTimer.addActionListener(this);
+        //gameTimer.addActionListener(this);
         gameTimer.start();
-        
+
         //Create the enemy spawn timer
         enemyTimer = new Timer(5000, this);
-        enemyTimer.addActionListener(this);
+        //enemyTimer.addActionListener(this);
         enemyTimer.start();
-        
+
     }
-    
-    
-    public void spawnEnemy(){
+
+    public void spawnEnemy() {
         int rand = (int) Math.ceil(Math.random() * 6);
-        
+
         //Create new emeny adding them to the list of enemies and the gameboard
         Image enemyImage = new ImageIcon(getClass().getClassLoader().getResource("images/ford.png")).getImage();
 
-        Car enemy = new Car(new ImageIcon(enemyImage), lane[rand-1]);
+        Car enemy = new Car(new ImageIcon(enemyImage), lane[rand - 1]);
         enemies.add(enemy);
         add(enemy);
-        
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
-        
 
-        if(obj == enemyTimer){
-            
+        //testing output
+        if (testing) {
+            System.out.println("Action Performed");
+        }
+
+        if (obj == enemyTimer) {
+
+            //testing output
+            if (testing) {
+                System.out.println("Enemy Timer");
+            }
+
             //Its time to create a new enemy
-            if(enemies.size() < 7){
+            if (enemies.size() < 7) {
                 spawnEnemy();
             }
-            
+
             //Check if powerup is in use 
-            if(powerupToggle && powerupTimer < 1){
+            if (powerupToggle && powerupTimer < 1) {
                 powerupTimer++;
-            }
-            
-            else{
+            } else {
                 powerupToggle = false;
-                for (Car enemy : enemies){
+                for (Car enemy : enemies) {
                     enemy.speed = 5;
                 }
             }
         }
-        
-        if(obj == gameTimer){
-            
-            for (Car enemy : enemies){
-                
+
+        if (obj == gameTimer) {
+
+            //testing output
+            if (testing) {
+                System.out.println("Game Timer");
+            }
+
+            for (Car enemy : enemies) {
+
                 //if enemy is still on the board
                 if (enemy.location.y <= this.getHeight()) {
-                    
+
                     //move the enemy
                     enemy.location.y += enemy.getSpeed();
-                    
-                    //check collision of player and enemies
-                    if(collisionCheck(enemy)){
-                        gameOver();
-                    }
-                }
-                
-                //reset the enemy posistion to the top with a new lane
-                else{
+
+                } //reset the enemy posistion to the top with a new lane
+                else {
                     int rand = (int) Math.ceil(Math.random() * 6);
-                    enemy.resetEnemy(lane[rand-1]);
+                    enemy.resetEnemy(lane[rand - 1]);
                     score++;
                 }
             }
+            //check collision of player and enemies
+            if (collisionCheck()) {
+                gameOver();
+            }
+
         }
-            repaint();       
+        repaint();
     }
-    
-    public void gameOver(){
-        System.out.println("Game Over");
+
+    public void gameOver() {
+        //testing output
+        if (testing) {
+            System.out.println("Game Over");
+        }
+
         JLabel gameover = new JLabel("Game Over", SwingConstants.CENTER);
         gameover.setFont(new Font("serif", Font.PLAIN, 36));
+
         gameTimer.stop();
-        
+        gameTimer.removeActionListener(this);
+
         JFrame gameoverFrame = new JFrame("Game Over");
         gameoverFrame.setLayout(new GridLayout(3, 1));
         gameoverFrame.add(gameover);
         gameoverFrame.add(new ScorePanel(score));
-       
+
         gameoverFrame.setSize(500, 500);
         gameoverFrame.setLocationRelativeTo(this);
         gameoverFrame.setVisible(true);
         gameoverFrame.setDefaultCloseOperation(gameoverFrame.EXIT_ON_CLOSE);
-        
+
     }
-    
-   @Override
+
+    @Override
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
+
         g.drawImage(background, 0, 0, null);
+
         player.setBounds(player.location.x, player.location.y, player.width, player.height);
-        for(Car enemy : enemies){
-                enemy.setBounds(enemy.location.x, enemy.location.y, enemy.width, enemy.height);
-                
-            }
+
+        for (Car enemy : enemies) {
+            enemy.setBounds(enemy.location.x, enemy.location.y, enemy.width, enemy.height);
+
+        }
     }
-    
-    public boolean collisionCheck(Car enemy) {
-        //for (Car enemy : enemies) {
-            if(enemy.getBounds().intersects(player.getBounds())){
+
+    public boolean collisionCheck() {
+        for (Car enemy : enemies) {
+            if (enemy.getBounds().intersects(player.getBounds())) {
+                gameTimer.stop();
+                enemyTimer.stop();
+                gameTimer.removeActionListener(this);
+                enemyTimer.removeActionListener(this);
+                
                 return true;
             }
-        //}
+        }
         return false;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
 
-
             // Move Left
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                if(player.getLocation().x >= 100){
+                if (player.getLocation().x >= 100) {
                     player.location.x -= 25;
                 }
-                
+
                 repaint();
                 break;
 
             // Move Right    
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                if(player.getLocation().x <= 400){
+                if (player.getLocation().x <= 400) {
                     player.location.x += 25;
                 }
-                
+
                 repaint();
                 break;
-                
+
             case KeyEvent.VK_SPACE:
-                
-                    togglePowerUp();
+
+                togglePowerUp();
 
         }
     }
-    
-    public void togglePowerUp(){
+
+    public void togglePowerUp() {
         powerupToggle = true;
-       for(Car enemy: enemies){
+        for (Car enemy : enemies) {
             enemy.speed = 3;
-        } 
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
+
     }
-    
+
 }

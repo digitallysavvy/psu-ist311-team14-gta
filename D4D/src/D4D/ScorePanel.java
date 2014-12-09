@@ -27,12 +27,9 @@ import java.awt.Component;
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
@@ -55,7 +52,7 @@ public class ScorePanel extends JPanel {
     int score;
     Object rowData[][] = new Object[3][3];
     String columnNames[] = { "Name", "Score"};
-    
+
     public ScorePanel(int s) {
         super();
         score = s;
@@ -91,7 +88,6 @@ public class ScorePanel extends JPanel {
                 read = in.readLine();
                 //while(read != null){
                 String[] split = read.split("-");
-                System.out.println(split.toString());
                 for(int x = 0; x < 3; x++){
                     rowData[x][0] = split[0];
                     rowData[x][1] = split[1];
