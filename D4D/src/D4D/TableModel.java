@@ -32,24 +32,30 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModel extends AbstractTableModel{
 
-    ArrayList data = new ArrayList<>();
+   Object[][] rows;
+    String[] columns;
+    
+    public TableModel(Object[][] r, String[] c){
+        rows = r;
+        columns = c;
+    }
     
     @Override
     public int getRowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return rows.length-1;
     }
 
     @Override
     public int getColumnCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return columns.length-1;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return rows[rowIndex][0];
     }
-    public void addScore(){
-        //data.add();
+    public void addScore(String n, int s){
+        //rows[rows.length-1][0]
     }
     
 }
