@@ -92,7 +92,7 @@ public class ScorePanel extends JPanel implements ActionListener{
         
         try {
             BufferedReader in = new BufferedReader(new FileReader(D4D.class.getClassLoader()
-                              .getResource("highscore.txt").getPath()
+                              .getResource("scores/highscore.txt").getPath()
                               .replaceAll("%20", " ")));
             
                 //read = in.readLine();
@@ -160,9 +160,9 @@ public class ScorePanel extends JPanel implements ActionListener{
         
         try{
         BufferedWriter out = new BufferedWriter(new FileWriter(D4D.class.getClassLoader()
-                              .getResource("highscore.txt").getPath()
+                              .getResource("scores/highscore.txt").getPath()
                               .replaceAll("%20", " "), true));
-        System.out.println(D4D.class.getClassLoader().getResource("highscore.txt").getPath());
+        System.out.println(D4D.class.getClassLoader().getResource("scores/highscore.txt").getPath());
         out.write(System.lineSeparator() + s); // Newline escape sequence does not work with BufferedWriter...
         
         out.close();
