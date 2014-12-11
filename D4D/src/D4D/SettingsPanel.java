@@ -34,7 +34,7 @@ import javax.swing.*;
  *
  * @author Aldrich
  */
-public class SettingPanel extends JPanel implements ActionListener{
+public class SettingsPanel extends JPanel implements ActionListener{
     
     LayoutManager layout;
     JButton audiButton,bentlyButton,lamboButton,start;
@@ -42,7 +42,7 @@ public class SettingPanel extends JPanel implements ActionListener{
     ImageIcon player, audiImage, bentlyImage, lamboImage;
     
     
-    public SettingPanel(){
+    public SettingsPanel(){
         super();
         layout = new GridLayout(5,1,10,30);
         setLayout(layout);

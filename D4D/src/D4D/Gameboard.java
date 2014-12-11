@@ -176,7 +176,7 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener {
                 if (enemy.location.y <= this.getHeight()) {
 
                     //move the enemy
-                    enemy.location.y += enemy.getSpeed();
+                    driveCar(enemy);
 
                 } //reset the enemy posistion to the top with a new lane
                 else {
@@ -194,6 +194,10 @@ public class Gameboard extends JPanel implements ActionListener, KeyListener {
         repaint();
     }
 
+    public void driveCar(Car car){
+        car.location.y += car.getSpeed();
+    }
+    
     public void gameOver() {
         //testing output
         if (testing) {

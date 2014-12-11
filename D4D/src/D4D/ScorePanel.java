@@ -32,7 +32,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,7 +44,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ScorePanel extends JPanel implements ActionListener{
     
-    JTable table;
+    JTable scoresTable;
     AbstractTableModel tableModel;
     String userName;
     JLabel enterName;
@@ -71,7 +70,7 @@ public class ScorePanel extends JPanel implements ActionListener{
         
         loadScoresFromFile();
         
-        table = new JTable(rowData, columnNames);
+        scoresTable = new JTable(rowData, columnNames);
         submit.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel highscore = new JLabel("High Scores");
@@ -80,13 +79,13 @@ public class ScorePanel extends JPanel implements ActionListener{
         add(nameInput);
         add(submit);
         add(highscore);
-        add(table);
+        add(scoresTable);
            
     }
     
-    public void loadScoresFromFile(){
+    private void loadScoresFromFile(){
         
-        //Removes previous score and sort results
+        //Removes previous score and sortScores results
         map.clear();
         sorted_map.clear();
         
@@ -103,16 +102,8 @@ public class ScorePanel extends JPanel implements ActionListener{
                     
                     map.put(split[0], Integer.parseInt(split[1]));
                 }
-                /*
-                while(read != ""){
-                    System.out.println(read);
-                    String[] split = read.split("-");
-                    
-                    map.put(split[0], Integer.parseInt(split[1]));
-                    read = in.readLine();
-                }*/
-                
-                sort();
+
+                sortScores();
             in.close();
         }
         catch(IOException e){
@@ -121,7 +112,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 
     }
     
-    public void sort(){
+    public void sortScores(){
         sorted_map.putAll(map);
         int x = 0;
             for(Map.Entry<String,Integer> entry : sorted_map.entrySet()) {
@@ -143,20 +134,20 @@ public class ScorePanel extends JPanel implements ActionListener{
             String n = nameInput.getText();
             int s = this.score;
             String text = n + "-" + s;
-            writeToFile(text);
+            writeScoresToFile(text);
             
             
             //Updates and re-sorts scores on file
             loadScoresFromFile();
-            remove(table);
+            remove(scoresTable);
             this.validate();
-            table = new JTable(rowData, columnNames);
-            add(table);
+            scoresTable = new JTable(rowData, columnNames);
+            add(scoresTable);
             this.validate();
         }
     }
     
-    public void writeToFile(String s){
+    private void writeScoresToFile(String s){
         
         try{
         BufferedWriter out = new BufferedWriter(new FileWriter(D4D.class.getClassLoader()
@@ -172,22 +163,4 @@ public class ScorePanel extends JPanel implements ActionListener{
         }
     }
     
-    
-    class ValueComparator implements Comparator<String> {
-
-    Map<String, Integer> base;
-    public ValueComparator(Map<String, Integer> base) {
-        this.base = base;
-    }
-
-    // Note: this comparator imposes orderings that are inconsistent with equals.    
-    @Override
-    public int compare(String a, String b) {
-        if (base.get(a) >= base.get(b)) {
-            return -1;
-        } else {
-            return 1;
-        } // returning 0 would merge keys
-    }
-}
 }

@@ -35,7 +35,7 @@ import javax.swing.JPanel;
  */
 public class ShellPanel extends JPanel implements ActionListener{
     
-    SettingPanel settings;
+    SettingsPanel settings;
     Gameboard gameboard;
     public enum Difficulty {
     EASY, MEDIUM, HARD
@@ -44,7 +44,7 @@ public class ShellPanel extends JPanel implements ActionListener{
     public ShellPanel(){
         super();
         setLayout(new BorderLayout());
-        settings = new SettingPanel();
+        settings = new SettingsPanel();
         add(settings);
         settings.start.addActionListener(this);
     }

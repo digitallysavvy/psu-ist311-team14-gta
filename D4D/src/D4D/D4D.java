@@ -30,6 +30,6 @@ package D4D;
 public class D4D {
     
     public static void main(String[] args) {
-        OuterFrame oFrame = new OuterFrame();
+        GameFrame oFrame = new GameFrame();
     }
 }

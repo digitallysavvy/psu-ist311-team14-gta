@@ -31,11 +31,11 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
  *
  * @author Aldrich
  */
-public class OuterFrame extends JFrame{
+public class GameFrame extends JFrame{
     
     ShellPanel mainPanel;
     
-    public OuterFrame(){
+    public GameFrame(){
         super("D4D Game");
         
         mainPanel = new ShellPanel();
