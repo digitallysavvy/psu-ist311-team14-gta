@@ -93,8 +93,7 @@ public class ScorePanel extends JPanel implements ActionListener{
             BufferedReader in = new BufferedReader(new FileReader(D4D.class.getClassLoader()
                               .getResource("scores/highscore.txt").getPath()
                               .replaceAll("%20", " ")));
-            
-                //read = in.readLine();
+
                  
                 for (String read = in.readLine(); read != null; read = in.readLine()) {
                     System.out.println(read);
