@@ -23,7 +23,6 @@
  */
 package D4D;
 
-import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 /**
