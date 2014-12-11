@@ -94,8 +94,7 @@ public class ScorePanel extends JPanel implements ActionListener{
             BufferedReader in = new BufferedReader(new FileReader(D4D.class.getClassLoader()
                               .getResource("scores/highscore.txt").getPath()
                               .replaceAll("%20", " ")));
-            
-                //read = in.readLine();
+                         
                  
                 for (String read = in.readLine(); read != null; read = in.readLine()) {
                     System.out.println(read);
@@ -103,14 +102,6 @@ public class ScorePanel extends JPanel implements ActionListener{
                     
                     map.put(split[0], Integer.parseInt(split[1]));
                 }
-                /*
-                while(read != ""){
-                    System.out.println(read);
-                    String[] split = read.split("-");
-                    
-                    map.put(split[0], Integer.parseInt(split[1]));
-                    read = in.readLine();
-                }*/
                 
                 sort();
             in.close();
@@ -125,7 +116,8 @@ public class ScorePanel extends JPanel implements ActionListener{
         sorted_map.putAll(map);
         int x = 0;
             for(Map.Entry<String,Integer> entry : sorted_map.entrySet()) {
-                
+                    
+                    //Displays top 3 scores after sort
                     if(x < 3){
                     rowData[x][0] = entry.getKey();
                     System.out.println(entry.getKey());
