@@ -42,8 +42,8 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Aldrich
  */
-public class ScorePanel extends JPanel implements ActionListener{
-    
+public class ScorePanel extends JPanel implements ActionListener {
+
     JTable scoresTable;
     AbstractTableModel tableModel;
     String userName;
@@ -53,90 +53,86 @@ public class ScorePanel extends JPanel implements ActionListener{
     String read;
     int score;
     Object rowData[][] = new Object[3][3];
-    String columnNames[] = { "Name", "Score"};
+    String columnNames[] = {"Name", "Score"};
 
-    HashMap<String,Integer> map = new HashMap();
-    ValueComparator bvc =  new ValueComparator(map);
-    TreeMap<String,Integer> sorted_map = new TreeMap(bvc);
-    
-    
+    HashMap<String, Integer> map = new HashMap();
+    ValueComparator bvc = new ValueComparator(map);
+    TreeMap<String, Integer> sorted_map = new TreeMap(bvc);
+
     public ScorePanel(int s) {
         super();
         score = s;
-        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-        nameInput = new JTextField("Enter your name",SwingConstants.CENTER);
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        nameInput = new JTextField("Enter your name", SwingConstants.CENTER);
         submit = new JButton("Submit");
         submit.addActionListener(this);
-        
+
         loadScoresFromFile();
-        
+
         scoresTable = new JTable(rowData, columnNames);
         submit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         JLabel highscore = new JLabel("High Scores");
         highscore.setFont(new Font("serif", Font.PLAIN, 24));
-        setSize(100,300);
+        setSize(100, 300);
         add(nameInput);
         add(submit);
         add(highscore);
         add(scoresTable);
-           
+
     }
-    
-    private void loadScoresFromFile(){
-        
+
+    private void loadScoresFromFile() {
+
         //Removes previous score and sortScores results
         map.clear();
         sorted_map.clear();
-        
+
         try {
             BufferedReader in = new BufferedReader(new FileReader(D4D.class.getClassLoader()
-                              .getResource("scores/highscore.txt").getPath()
-                              .replaceAll("%20", " ")));
-            
-                //read = in.readLine();
-                 
-                for (String read = in.readLine(); read != null; read = in.readLine()) {
-                    System.out.println(read);
-                    String[] split = read.split("-");
-                    
-                    map.put(split[0], Integer.parseInt(split[1]));
-                }
+                    .getResource("scores/highscore.txt").getPath()
+                    .replaceAll("%20", " ")));
 
-                sortScores();
+            for (String read = in.readLine(); read != null; read = in.readLine()) {
+                System.out.println(read);
+                String[] split = read.split("-");
+
+                map.put(split[0], Integer.parseInt(split[1]));
+            }
+
+            sortScores();
             in.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             System.out.println("There was a problem:" + e);
         }
 
     }
-    
-    public void sortScores(){
+
+    public void sortScores() {
         sorted_map.putAll(map);
         int x = 0;
-            for(Map.Entry<String,Integer> entry : sorted_map.entrySet()) {
-                
-                    if(x < 3){
-                    rowData[x][0] = entry.getKey();
-                    System.out.println(entry.getKey());
-                    rowData[x][1] = entry.getValue();
-                    System.out.println(entry.getValue());
-                    }
-                    x++;
+        for (Map.Entry<String, Integer> entry : sorted_map.entrySet()) {
+
+            //Displays top 3 scores after sort
+            if (x < 3) {
+                rowData[x][0] = entry.getKey();
+                System.out.println(entry.getKey());
+                rowData[x][1] = entry.getValue();
+                System.out.println(entry.getValue());
             }
+            x++;
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
-        if(obj == submit){
+        if (obj == submit) {
             String n = nameInput.getText();
             int s = this.score;
             String text = n + "-" + s;
             writeScoresToFile(text);
-            
-            
+
             //Updates and re-sorts scores on file
             loadScoresFromFile();
             remove(scoresTable);
@@ -146,21 +142,20 @@ public class ScorePanel extends JPanel implements ActionListener{
             this.validate();
         }
     }
-    
-    private void writeScoresToFile(String s){
-        
-        try{
-        BufferedWriter out = new BufferedWriter(new FileWriter(D4D.class.getClassLoader()
-                              .getResource("scores/highscore.txt").getPath()
-                              .replaceAll("%20", " "), true));
-        System.out.println(D4D.class.getClassLoader().getResource("scores/highscore.txt").getPath());
-        out.write(System.lineSeparator() + s); // Newline escape sequence does not work with BufferedWriter...
-        
-        out.close();
-        }
-        catch(IOException e){
+
+    private void writeScoresToFile(String s) {
+
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(D4D.class.getClassLoader()
+                    .getResource("scores/highscore.txt").getPath()
+                    .replaceAll("%20", " "), true));
+            System.out.println(D4D.class.getClassLoader().getResource("scores/highscore.txt").getPath());
+            out.write(System.lineSeparator() + s); // Newline escape sequence does not work with BufferedWriter...
+
+            out.close();
+        } catch (IOException e) {
             System.out.println("There was a problem:" + e);
         }
     }
-    
+
 }
